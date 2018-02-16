@@ -1,3 +1,8 @@
+# sitelib for noarch packages, sitearch for others (remove the unneeded one)
+%{!?__python2: %global __python2 %__python}
+%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+
 %if 0%{?fedora} || 0%{?rhel} >= 8
 %global with_python3 1
 %endif
@@ -16,16 +21,24 @@ BuildArch:      noarch
 # Use orderedset instead of oset; the latter has a dead upstream
 Patch0:         %{name}-orderedset.patch
 
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:  python2-coverage
+BuildRequires:  python2-six
+BuildRequires:  python2-sphinx
+%else
+BuildRequires:  python-coverage
+BuildRequires:  python-six
+BuildRequires:  python-sphinx
+%endif
 BuildRequires:  python2-devel
-BuildRequires:  python2-latexcodec
 BuildRequires:  python2-nose
+BuildRequires:  python2-setuptools
+
+% these are missing
+BuildRequires:  python2-latexcodec
 BuildRequires:  python2-orderedset
 BuildRequires:  python2-pybtex
 BuildRequires:  python2-pybtex-docutils
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-six
-BuildRequires:  python2-sphinx
 BuildRequires:  python2-sphinx-testing
 
 %if 0%{?with_python3}
