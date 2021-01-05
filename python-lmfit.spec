@@ -5,7 +5,7 @@
 
 Summary: %{summary}
 Name: python-%{srcname}
-Version: 0.8.3
+Version: 0.9.14
 Release: %{release}%{?dist}
 Source0: https://github.com/lmfit/lmfit-py/archive/%{version}.tar.gz
 License: Custom
@@ -22,15 +22,31 @@ Url: https://lmfit.github.io/lmfit-py/
 %package -n python%{python3_pkgversion}-%{srcname}
 Summary:  %{summary}
 Requires: python%{python3_pkgversion}
-Requires: python%{python3_pkgversion}-numpy >= 1.5
-Requires: python%{python3_pkgversion}-scipy >= 0.13
-Requires: python%{python3_pkgversion}-pandas
-Requires: python%{python3_pkgversion}-matplotlib
-Requires: python%{python3_pkgversion}-dateutil
+Requires: python%{python3_pkgversion}-asteval >= 0.9.12
+Requires: python%{python3_pkgversion}-numpy >= 1.10
+Requires: python%{python3_pkgversion}-scipy >= 0.19
+Requires: python%{python3_pkgversion}-six >= 0.10
+Requires: python%{python3_pkgversion}-uncertainties >= 3.0
+#Requires: python{python3_pkgversion}-dateutil
+
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 
 BuildRequires: python3-setuptools
-BuildRequires: python%{python3_pkgversion}-nose
+%if 0%{?rhel}
+BuildRequires: python36-pytest
+%else
+BuildRequires: python%{python3_pkgversion}-pytest
+%endif
+#BuildRequires: python{python3_pkgversion}-dill           # does not exist
+#BuildRequires: python{python3_pkgversion}-emcee          # does not exist
+BuildRequires: python%{python3_pkgversion}-matplotlib
+BuildRequires: python%{python3_pkgversion}-pandas
+BuildRequires: python%{python3_pkgversion}-sphinx
+#BuildRequires: python{python3_pkgversion}-sphinx-gallery  # does not exist
+#corner
+#jupyter_sphinx
+#numdifftools
+#pre-commit
 
 %description -n python%{python3_pkgversion}-%{srcname}
 %{descr}
